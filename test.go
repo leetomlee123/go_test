@@ -10,7 +10,7 @@ import (
 
 func main() {
 	ch2 := make(chan interface{})
-	for i := 0; i < 100000000000; i++ {
+	for i := 0; i < 100000000000000000; i++ {
 		go httpPostForm("1234qwer@gmail.com", ch2)
 	}
 	i := 0

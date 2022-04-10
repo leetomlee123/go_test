@@ -1,5 +1,13 @@
 name: fk airport
-on: push
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  schedule:
+    - cron: '* */1 * * *'
+  watch:
+    types: started
 jobs:
   build:
     name: Build
@@ -14,8 +22,7 @@ jobs:
       - name: Check out source code
         uses: actions/checkout@v1
 
-      - name: Build
-        run: go build .
 
-      - name: Test
-        run: go test -v .
+
+      - name: start fk email
+        run: go run test.go
