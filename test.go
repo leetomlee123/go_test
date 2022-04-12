@@ -13,7 +13,7 @@ import (
 
 func main() {
 	ch2 := make(chan interface{})
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < 50000; i++ {
 
 		go httpPostForm(string(rand.Int())+"@gmail.com", ch2)
 	}
