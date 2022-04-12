@@ -19,7 +19,7 @@ func randomEmail() {
 
 func main() {
 	ch2 := make(chan interface{})
-	for i := 0; i < 100000000000000000000000000000; i++ {
+	for i := 0; i < 1000000; i++ {
 
 		go httpPostForm(string(rand.Int())+"@gmail.com", ch2)
 	}
