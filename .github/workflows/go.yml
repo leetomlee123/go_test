@@ -1,9 +1,9 @@
 name: fk airport
 on:
   push:
-    branches: [ master ]
+    branches: [ fgy ]
   pull_request:
-    branches: [ master ]
+    branches: [ fgy ]
   schedule:
     - cron: '*/2 * * * *'
   watch:
