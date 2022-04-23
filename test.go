@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
+	"github.com/satori/go.uuid"
 	"io/ioutil"
-	"math/rand"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -13,9 +13,10 @@ import (
 
 func main() {
 	ch2 := make(chan interface{})
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < 1; i++ {
+		v4 := uuid.NewV4()
 
-		go httpPostForm(string(rand.Int())+"@gmail.com", ch2)
+		go register(v4.String()+"@gmail.com", ch2)
 	}
 	i := 0
 	for {
@@ -73,5 +74,26 @@ func httpPostForm(email string, chanel chan interface{}) {
 	fmt.Println(context)
 
 	chanel <- context
+
+}
+func register(email string, chanel chan interface{}) {
+	println(email)
+	chanel <- email
+	resp, err := http.PostForm("https://www.awslcn.xyz/api/v1/passport/auth/register",
+		url.Values{"key": {"value"}, "email": {email}, "password": {"fkairport1314"}})
+	if err != nil {
+		// handle error
+	}
+
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		// handle error
+	}
+	textQuoted := string(body)
+
+	fmt.Println(textQuoted)
+
+	chanel <- textQuoted
 
 }
