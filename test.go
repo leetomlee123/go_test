@@ -29,7 +29,7 @@ func main() {
 			println(u)
 			i = 0
 		default:
-			println("ok")
+			println(i)
 			if i > 1000 {
 				goto Loop
 			}
