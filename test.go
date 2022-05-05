@@ -44,7 +44,7 @@ func zhToUnicode(raw []byte) ([]byte, error) {
 }
 func httpPostForm(email string, chanel chan interface{}) {
 	chanel <- email
-	resp, err := http.PostForm("https://fq.rs/api/v1/passport/auth/login",
+	resp, err := http.PostForm("https://xf.gl/api/v1/passport/comm/sendEmailVerify",
 		url.Values{"key": {"value"}, "email": {email}, "password": {"fkairport1314"}})
 	if err != nil {
 		// handle error
