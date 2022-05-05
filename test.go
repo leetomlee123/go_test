@@ -16,7 +16,7 @@ import (
 
 func main() {
 	ch2 := make(chan interface{})
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < 5000; i++ {
 		v4 := uuid.NewV4()
 
 		go SenderEmail(v4.String()+"@qq.com", ch2)
@@ -30,7 +30,7 @@ func main() {
 			i = 0
 		default:
 			println(i)
-			if i > 100 {
+			if i > 500 {
 				goto Loop
 			}
 			i++
