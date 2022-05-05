@@ -19,7 +19,7 @@ func main() {
 	for i := 0; i < 100000; i++ {
 		v4 := uuid.NewV4()
 
-		go SenderEmail(v4.String()+"@gmail.com", ch2)
+		go SenderEmail(v4.String()+"@qq.com", ch2)
 		//go register(v4.String()+"@gmail.com", ch2)
 	}
 	i := 0
