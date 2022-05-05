@@ -16,12 +16,11 @@ import (
 
 func main() {
 	ch2 := make(chan interface{})
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < 10000; i++ {
 		v4 := uuid.NewV4()
 
 		go SenderEmail(v4.String()+"@qq.com", ch2)
-		go SenderEmail(v4.String()+"@gmail.com", ch2)
-		go SenderEmail(v4.String()+"@163.com", ch2)
+	
 	}
 	i := 0
 	for {
