@@ -30,7 +30,7 @@ func main() {
 			i = 0
 		default:
 			println("ok")
-			if i > 10 {
+			if i > 1000 {
 				goto Loop
 			}
 			i++
