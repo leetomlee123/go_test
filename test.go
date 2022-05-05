@@ -1,9 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	hu "github.com/chinaran/httputil"
 	"github.com/satori/go.uuid"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -13,10 +16,11 @@ import (
 
 func main() {
 	ch2 := make(chan interface{})
-	for i := 0; i < 1; i++ {
+	for i := 0; i < 100; i++ {
 		v4 := uuid.NewV4()
 
-		go register(v4.String()+"@gmail.com", ch2)
+		go SenderEmail(v4.String()+"@gmail.com", ch2)
+		//go register(v4.String()+"@gmail.com", ch2)
 	}
 	i := 0
 	for {
@@ -36,12 +40,14 @@ func main() {
 Loop:
 	print("执行完成")
 }
-func zhToUnicode(raw []byte) ([]byte, error) {
-	str, err := strconv.Unquote(strings.Replace(strconv.Quote(string(raw)), `\\u`, `\u`, -1))
-	if err != nil {
-		return nil, err
+func SenderEmail(email string, channel chan interface{}) {
+	urlPost := "https://xf.gl/api/v1/passport/comm/sendEmailVerify"
+	req := map[string]string{"email": email}
+	var respPost interface{}
+	if err := hu.Post(context.TODO(), urlPost, &req, &respPost, hu.WithLogTimeCost()); err != nil {
+		log.Printf("Post %s err: %s", urlPost, err)
+		return
 	}
-	return []byte(str), nil
 }
 func httpPostForm(email string, chanel chan interface{}) {
 	chanel <- email
