@@ -42,7 +42,7 @@ func Loop() {
 			i = 0
 		default:
 			println("ok")
-			if i > 10 {
+			if i > 100 {
 				goto Loop
 			}
 			i++
