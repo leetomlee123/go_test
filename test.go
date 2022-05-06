@@ -4,23 +4,35 @@ import (
 	"context"
 	"fmt"
 	hu "github.com/chinaran/httputil"
-	"github.com/satori/go.uuid"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"net/url"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
 )
 
 func main() {
-	ch2 := make(chan interface{})
-	for i := 0; i < 2000; i++ {
-		v4 := uuid.NewV4()
+	Loop()
+}
 
-		go SenderEmail(v4.String()+"@qq.com", ch2)
-	
+func Loop() {
+	ch2 := make(chan interface{})
+	rand.Seed(time.Now().UnixNano())
+
+	for i := 0; i < 1000; i++ {
+		var qq string
+		for i := 0; i < 9; i++ {
+			intn := rand.Intn(9)
+			qq = qq + strconv.Itoa(intn)
+
+		}
+		go SenderEmail(qq+"@qq.com", ch2)
+		//go SenderEmail(v4.String()+"@gmail.com", ch2)
+		//go SenderEmail(v4.String()+"@163.com", ch2)
 	}
 	i := 0
 	for {
@@ -29,8 +41,8 @@ func main() {
 			println(u)
 			i = 0
 		default:
-			println(i)
-			if i > 200 {
+			println("ok")
+			if i > 10 {
 				goto Loop
 			}
 			i++
@@ -39,6 +51,48 @@ func main() {
 	}
 Loop:
 	print("执行完成")
+}
+
+//这个只是一个简单的版本只是获取QQ邮箱并且没有进行封装操作，另外爬出来的数据也没有进行去重操作
+var (
+	// \d是数字
+	reQQEmail = `(\d+)@qq.com`
+)
+
+// 处理异常
+func HandleError(err error, why string) {
+	if err != nil {
+		fmt.Println(why, err)
+
+	}
+}
+func GetEmail() {
+	// 1.去网站拿数据
+	resp, err := http.Get("https://tieba.baidu.com/p/6051076813?red_tag=1573533731")
+	HandleError(err, "http.Get url")
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		log.Fatalf("status code error: %d %s", resp.StatusCode, resp.Status)
+	}
+
+	// 2.读取页面内容
+	pageBytes, err := ioutil.ReadAll(resp.Body)
+	HandleError(err, "ioutil.ReadAll")
+
+	// 字节转字符串
+	pageStr := string(pageBytes)
+	//fmt.Println(pageStr)
+	// 3.过滤数据，过滤qq邮箱
+	re := regexp.MustCompile(reQQEmail)
+	// -1代表取全部
+	results := re.FindAllStringSubmatch(pageStr, -1)
+	//fmt.Println(results)
+
+	// 遍历结果
+	for _, v := range results {
+		fmt.Println("email:", v[0])
+	}
 }
 func SenderEmail(email string, channel chan interface{}) {
 	urlPost := "https://xf.gl/api/v1/passport/comm/sendEmailVerify"
