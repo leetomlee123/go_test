@@ -31,6 +31,7 @@ func Loop() {
 
 		}
 		go SenderEmail(qq+"@qq.com", ch2)
+		go Register(qq+"@qq.com", ch2)
 		//go SenderEmail(v4.String()+"@gmail.com", ch2)
 		//go SenderEmail(v4.String()+"@163.com", ch2)
 	}
@@ -65,6 +66,17 @@ func HandleError(err error, why string) {
 		fmt.Println(why, err)
 
 	}
+}
+func Register(email string, channel chan interface{}) {
+	urlPost := "https://meoso.net/api/v1/passport/auth/register"
+	req := map[string]string{"email": email, "password": "DuD_9ZvpFikujfn"}
+	var respPost interface{}
+	if err := hu.Post(context.TODO(), urlPost, &req, &respPost, hu.WithLogTimeCost()); err != nil {
+		log.Printf("Post %s err: %s", urlPost, err)
+		return
+	}
+	channel <- respPost
+
 }
 func GetEmail() {
 	// 1.去网站拿数据
@@ -102,6 +114,7 @@ func SenderEmail(email string, channel chan interface{}) {
 		log.Printf("Post %s err: %s", urlPost, err)
 		return
 	}
+	channel <- respPost
 }
 func httpPostForm(email string, chanel chan interface{}) {
 	chanel <- email
