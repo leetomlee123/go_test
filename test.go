@@ -69,7 +69,9 @@ func HandleError(err error, why string) {
 }
 func Register(email string, channel chan interface{}) {
 	urlPost := "https://meoso.net/api/v1/passport/auth/register"
-	req := map[string]string{"email": email, "password": "DuD_9ZvpFikujfn"}
+	intn := rand.Intn(9)
+
+	req := map[string]string{"email": email, "password": strconv.Itoa(intn) + "DuD_9ZvpFikujfn" + strconv.Itoa(intn)}
 	var respPost interface{}
 	if err := hu.Post(context.TODO(), urlPost, &req, &respPost, hu.WithLogTimeCost()); err != nil {
 		log.Printf("Post %s err: %s", urlPost, err)
