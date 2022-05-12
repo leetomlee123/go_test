@@ -109,7 +109,8 @@ func GetEmail() {
 	}
 }
 func SenderEmail(email string, channel chan interface{}) {
-	urlPost := "https://xf.gl/api/v1/passport/comm/sendEmailVerify"
+	//urlPost := "https://xf.gl/api/v1/passport/comm/sendEmailVerify"
+	urlPost := "https://www.speedaccelerate.com/api/v1/passport/comm/sendEmailVerify"
 	req := map[string]string{"email": email}
 	var respPost interface{}
 	if err := hu.Post(context.TODO(), urlPost, &req, &respPost, hu.WithLogTimeCost()); err != nil {
