@@ -17,6 +17,7 @@ import (
 
 func main() {
 	Loop()
+	println("master branch")
 }
 
 func Loop() {
@@ -30,8 +31,9 @@ func Loop() {
 			qq = qq + strconv.Itoa(intn)
 
 		}
-		go SenderEmail(qq+"@qq.com", ch2)
-		go Register(qq+"@qq.com", ch2)
+		//go SenderEmail(qq+"@qq.com", ch2)
+		//go Register(qq+"@qq.com", ch2)
+		go Check(ch2)
 		//go SenderEmail(v4.String()+"@gmail.com", ch2)
 		//go SenderEmail(v4.String()+"@163.com", ch2)
 	}
@@ -66,6 +68,15 @@ func HandleError(err error, why string) {
 		fmt.Println(why, err)
 
 	}
+}
+func Check(channel chan interface{}) {
+	var resp interface{}
+	if err := hu.Get(context.TODO(), "http://flying1008.top/", &resp); err != nil {
+		log.Printf("Post %s err: %s", "http://flying1008.top/", err)
+		return
+	}
+	channel <- resp
+
 }
 func Register(email string, channel chan interface{}) {
 	urlPost := "https://meoso.net/api/v1/passport/auth/register"
@@ -109,8 +120,7 @@ func GetEmail() {
 	}
 }
 func SenderEmail(email string, channel chan interface{}) {
-	//urlPost := "https://xf.gl/api/v1/passport/comm/sendEmailVerify"
-	urlPost := "https://www.speedaccelerate.com/api/v1/passport/comm/sendEmailVerify"
+	urlPost := "https://xf.gl/api/v1/passport/comm/sendEmailVerify"
 	req := map[string]string{"email": email}
 	var respPost interface{}
 	if err := hu.Post(context.TODO(), urlPost, &req, &respPost, hu.WithLogTimeCost()); err != nil {
