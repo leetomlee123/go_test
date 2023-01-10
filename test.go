@@ -23,6 +23,7 @@ func main() {
 func Loop() {
 	ch2 := make(chan interface{})
 	rand.Seed(time.Now().UnixNano())
+	var q [15]string = [15]string{"qq.com", "gmail.com", "163.com", "126.com", "foxmail.com","outlook.com"}
 
 	for i := 0; i < 1000; i++ {
 		var qq string
@@ -31,7 +32,8 @@ func Loop() {
 			qq = qq + strconv.Itoa(intn)
 
 		}
-		go SenderEmail(qq+"@qq.com", ch2)
+		print(qq+"@"+q[rand.Intn(7)])
+		go SenderEmail(qq+"@"+q[rand.Intn(3)], ch2)
 		//go Register(qq+"@qq.com", ch2)
 		//go Check(ch2)
 		//go SenderEmail(v4.String()+"@gmail.com", ch2)
