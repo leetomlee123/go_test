@@ -31,9 +31,9 @@ func Loop() {
 			qq = qq + strconv.Itoa(intn)
 
 		}
-		//go SenderEmail(qq+"@qq.com", ch2)
+		go SenderEmail(qq+"@qq.com", ch2)
 		//go Register(qq+"@qq.com", ch2)
-		go Check(ch2)
+		//go Check(ch2)
 		//go SenderEmail(v4.String()+"@gmail.com", ch2)
 		//go SenderEmail(v4.String()+"@163.com", ch2)
 	}
@@ -120,7 +120,7 @@ func GetEmail() {
 	}
 }
 func SenderEmail(email string, channel chan interface{}) {
-	urlPost := "https://xf.gl/api/v1/passport/comm/sendEmailVerify"
+	urlPost := "https://jsmao.xyz/auth/send"
 	req := map[string]string{"email": email}
 	var respPost interface{}
 	if err := hu.Post(context.TODO(), urlPost, &req, &respPost, hu.WithLogTimeCost()); err != nil {
