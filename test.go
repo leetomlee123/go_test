@@ -25,7 +25,7 @@ func Loop() {
 	rand.Seed(time.Now().UnixNano())
 	var q [15]string = [15]string{"qq.com", "gmail.com", "163.com", "126.com", "foxmail.com","outlook.com"}
 
-	for i := 0; i < 1000; i++ {
+	for i := 0; i < 10000; i++ {
 		var qq string
 		for i := 0; i < 9; i++ {
 			intn := rand.Intn(9)
