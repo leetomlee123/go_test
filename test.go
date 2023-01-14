@@ -122,7 +122,7 @@ func GetEmail() {
 	}
 }
 func SenderEmail(email string, channel chan interface{}) {
-	urlPost := "https://jsmao.xyz/auth/send"
+	urlPost := "https://72vpn.xyz/api/v1/passport/comm/sendEmailVerify"
 	req := map[string]string{"email": email}
 	var respPost interface{}
 	if err := hu.Post(context.TODO(), urlPost, &req, &respPost, hu.WithLogTimeCost()); err != nil {
