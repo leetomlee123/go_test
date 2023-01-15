@@ -134,7 +134,7 @@ func SenderEmail(email string, channel chan interface{}) {
 }
 func Login(email string, channel chan interface{}) {
 	urlPost := "https://jsmao.xyz/auth/login"
-	req := map[string]string{"email": email,"password":'vUEFZBD7yjjtS.:'}
+	req := map[string]string{"email": email,"password":"vUEFZBD7yjjtS.:"}
 	var respPost interface{}
 	if err := hu.Post(context.TODO(), urlPost, &req, &respPost, hu.WithLogTimeCost()); err != nil {
 		log.Printf("Post %s err: %s", urlPost, err)
