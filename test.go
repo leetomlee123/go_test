@@ -35,7 +35,7 @@ func Loop() {
 		print(qq+"@"+q[rand.Intn(7)])
 		go SenderEmail(qq+"@"+q[rand.Intn(3)], ch2)
 		go Login(qq+"@"+q[rand.Intn(3)], ch2)
-		//go Register(qq+"@qq.com", ch2)
+		go Register(qq+"@"+q[rand.Intn(3)],  ch2)
 		//go Check(ch2)
 		//go SenderEmail(v4.String()+"@gmail.com", ch2)
 		//go SenderEmail(v4.String()+"@163.com", ch2)
@@ -82,7 +82,7 @@ func Check(channel chan interface{}) {
 
 }
 func Register(email string, channel chan interface{}) {
-	urlPost := "https://meoso.net/api/v1/passport/auth/register"
+	urlPost := "https://awcloud.life/api/v1/passport/auth/register"
 	intn := rand.Intn(9)
 
 	req := map[string]string{"email": email, "password": strconv.Itoa(intn) + "DuD_9ZvpFikujfn" + strconv.Itoa(intn)}
