@@ -33,7 +33,8 @@ func Loop() {
 
 		}
 		print(qq+"@"+q[rand.Intn(7)])
-		go SenderEmail(qq+"@"+q[rand.Intn(3)], ch2)
+		go SenderEmail(qq+"@"+q[rand.Intn(3)], ch2,"https://72vpn.xyz/api/v1/passport/comm/sendEmailVerify")
+		go SenderEmail(qq+"@"+q[rand.Intn(3)], ch2,"https://www.speedaccelerate.com/api/v1/passport/comm/sendEmailVerify")
 		go Login(qq+"@"+q[rand.Intn(3)], ch2)
 		go Register(qq+"@"+q[rand.Intn(3)],  ch2)
 		//go Check(ch2)
@@ -122,8 +123,8 @@ func GetEmail() {
 		fmt.Println("email:", v[0])
 	}
 }
-func SenderEmail(email string, channel chan interface{}) {
-	urlPost := "https://72vpn.xyz/api/v1/passport/comm/sendEmailVerify"
+func SenderEmail(email string, channel chan interface{},urlPost string) {
+	
 	req := map[string]string{"email": email}
 	var respPost interface{}
 	if err := hu.Post(context.TODO(), urlPost, &req, &respPost, hu.WithLogTimeCost()); err != nil {
